@@ -6,7 +6,7 @@ WEATHER_KEY = os.environ['WEATHER_KEY']
 
 app = Flask(__name__)
 
-@app.route('/weatherapi/proxy', methods=['GET'])
+@app.route('/', methods=['GET'])
 def api_proxy():
     # Retrieve the locationQuery query parameter
     locationQuery = request.args.get('locationQuery')
