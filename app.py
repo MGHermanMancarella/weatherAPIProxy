@@ -6,7 +6,7 @@ from flask_cors import CORS
 WEATHER_KEY = os.environ['WEATHER_KEY']
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "https://isitglizzyweather.site/HereBeGlizzies.html"}})
+CORS(app, resources={r"*": {"origins": "https://isitglizzyweather.site"}})
 
 @app.route('/', methods=['GET'])
 def api_proxy():
