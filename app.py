@@ -10,7 +10,6 @@ openai.api_key = os.environ['OPENAI_SECRET_KEY']
 app = Flask(__name__)
 CORS(app, resources={r"*": {"origins": "https://isitglizzyweather.site"}})
 
-session["messages"] = [{"role": "system", "content": f"You are a chatbot. Your personality is drunk and in love. Your responses should all relate to hotdogs (also known as, pleural 'Glizzies' or singular 'Glizzy') in some way."}]
 
 
 @app.route('/', methods=['GET'])
@@ -34,7 +33,8 @@ def chatbot():
     user_input = request.json.get('prompt')
     if 'messages' not in session:
         session['messages'] = [
-            {"role": "system", "content": "You are a chatbot..."}
+            {"role": "system", "content": f"You are a chatbot. Your personality is drunk and in love. Your responses should all relate to hotdogs (also known as, pleural 'Glizzies' or singular 'Glizzy') in some way."}
+
         ]
     session["messages"].append({"role": "user", "content": user_input})
 
@@ -43,5 +43,6 @@ def chatbot():
         messages=session["messages"]
     )
     response_message = res['choices'][0]['message'].to_dict()
-    session["messages"].append({"role": "assistant", "content": response_message})
-    return jsonify("Glizzy_Bot: ", response_message)
+    session["messages"].append({"role": "assistant", "content": response_message['content']})
+    return jsonify({"Glizzy_Bot": response_message['content']})
+
