@@ -1,6 +1,6 @@
 import os
 import openai
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, session
 import requests
 from flask_cors import CORS
 
@@ -9,6 +9,9 @@ openai.api_key = os.environ['OPENAI_SECRET_KEY']
 
 app = Flask(__name__)
 CORS(app, resources={r"*": {"origins": "https://isitglizzyweather.site"}})
+
+session["messages"] = [{"role": "system", "content": f"You are a chatbot. Your personality is drunk and in love. Your responses should all relate to hotdogs (also known as, pleural 'Glizzies' or singular 'Glizzy') in some way."}]
+
 
 @app.route('/', methods=['GET'])
 def api_proxy():
@@ -27,14 +30,18 @@ def api_proxy():
 
 @app.route('/chat', methods=["POST"])
 def chatbot():
-    prompt = request.args.get('prompt')
-    messages= [{"role": "system", "content": f"You are a chatbot. Your personality is drunk and in love. Your responses should all relate to hotdogs (also known as, pleural 'Glizzies' or singular 'Glizzy') in some way."}]
 
-    user_input = prompt("User: ")
-    messages.append({"role": "user", "content": user_input})
+    user_input = request.json.get('prompt')
+    if 'messages' not in session:
+        session['messages'] = [
+            {"role": "system", "content": "You are a chatbot..."}
+        ]
+    session["messages"].append({"role": "user", "content": user_input})
+
     res = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
-        messages=messages
+        messages=session["messages"]
     )
-    messages.append(res['choices'][0]['message'].to_dict())
-    return ("Glizzy_Bot: ", res['choices'][0]['message']['content'])
+    response_message = res['choices'][0]['message'].to_dict()
+    session["messages"].append({"role": "assistant", "content": response_message})
+    return jsonify("Glizzy_Bot: ", response_message)
