@@ -8,6 +8,7 @@ WEATHER_KEY = os.environ['WEATHER_KEY']
 openai.api_key = os.environ['OPENAI_SECRET_KEY']
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 CORS(app, resources={r"*": {"origins": "https://isitglizzyweather.site"}})
 
 
