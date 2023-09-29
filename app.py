@@ -41,7 +41,8 @@ def chatbot():
 
     res = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
-        messages=session["messages"]
+        messages=session["messages"],
+        max_tokens=450
     )
     response_message = res['choices'][0]['message'].to_dict()
     session["messages"].append({"role": "assistant", "content": response_message['content']})
