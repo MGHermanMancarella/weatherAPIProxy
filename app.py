@@ -9,8 +9,8 @@ openai.api_key = os.environ['OPENAI_SECRET_KEY']
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
-CORS(app, resources={r"*": {"origins": "https://isitglizzyweather.site"}})
-
+# CORS(app, resources={r"*": {"origins": "https://isitglizzyweather.site"}})
+CORS(app, resources={r"/*": {"origins": "*"}}) 
 
 
 @app.route('/', methods=['GET'])
@@ -46,5 +46,6 @@ def chatbot():
     )
     response_message = res['choices'][0]['message'].to_dict()
     session["messages"].append({"role": "assistant", "content": response_message['content']})
+    print(response_message)
     return jsonify({"Glizzy_Bot": response_message['content']})
 
