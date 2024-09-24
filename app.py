@@ -44,11 +44,10 @@ def chatbot():
     res = openai.ChatCompletion.create(
         model="gpt-4o-mini",
         messages=session["messages"],
-        max_tokens=300,
-        stream=True
+        max_tokens=300
     )
-    response_message = res['choices'][0]['message']['content'].to_dict()
+    response_message = res['choices'][0]['message'].to_dict()
     session["messages"].append(
         {"role": "assistant", "content": response_message['content']})
-    # print(response_message)
+    print(response_message)
     return jsonify({"Glizzy_Bot": response_message['content']})
