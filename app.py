@@ -42,7 +42,7 @@ def chatbot():
     session["messages"].append({"role": "user", "content": user_input})
 
     res = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
+        model="gpt-4o-mini",
         messages=session["messages"],
         max_tokens=300
     )
