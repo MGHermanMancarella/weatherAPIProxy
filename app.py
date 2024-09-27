@@ -36,8 +36,8 @@ def chatbot():
     if 'messages' not in session:
         session['messages'] = [
             {"role": "system",
-                "content": f"You are a chatbot. Your personality is positive and helpful. Your responses should all relate to hotdogs (also known as, pleural 'Glizzies' or singular 'Glizzy') in some way. Don't use the word glizzy too often."}
-
+            "content": f"You are a chatbot. Your personality is positive and helpful. Your responses should all relate to hotdogs (also known as, pleural 'Glizzies' or singular 'Glizzy') in some way. Don't use the word glizzy too often."
+            }
         ]
     session["messages"].append({"role": "user", "content": user_input})
 
